@@ -1,0 +1,23 @@
+{
+  "extends": [
+    "development"
+  ],
+  "hints": {
+    "detect-css-reflows/composite": "on",
+    "detect-css-reflows/paint": "on",
+    "compat-api/css": "on",
+    "meta-viewport": "on",
+    "axe/text-alternatives": [
+      "default",
+      {
+        "document-title": "off"
+      }
+    ],
+    "axe/language": [
+      "default",
+      {
+        "html-has-lang": "on"
+      }
+    ]
+  }
+}

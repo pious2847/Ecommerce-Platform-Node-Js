@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Moon Shopping Mall</title>
+  <link rel="shortcut icon" href="IMG/logo.png" type="image/x-icon">
+
+  <%- include('./layout/header'); -%>
+
+    <style>
+      #pro {
+        width: 23%;
+        min-width: 190px;
+        height: 250px;
+      }
+
+      #pro img {
+        height: 130px;
+      }
+
+      .owl-item.active {
+        display: flex;
+        justify-content: center;
+        position: relative;
+        gap: 10px;
+      }
+
+      .owl-item {
+        width: 23%;
+        min-width: 190px;
+      }
+      .section_container{
+        padding-inline: 40px;
+      }
+
+      @media (max-width: 760px) {
+        #pro {
+          width: 23%;
+          min-width: 190px;
+        }
+      }
+    </style>
+    <!-- Include Owl Carousel CSS -->
+    <link rel="stylesheet" href="./carousel/owl.carousel.min.css">
+    <link rel="stylesheet" href="./carousel/owl.theme.default.min.css">
+</head>
+
+<body>
+  <%- include('./layout/top-nav', { isAdmin: isAdmin , totalcount: totalcount}) -%>
+
+
+    <div class="general_message">
+      <%- include('messages', {alert}) %>
+    </div>
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <section class="section_container">
+      <div class="Electirical_field__title">
+        <h2>Top<span class="primspan"> Rated</span></h2>
+      </div>
+      <br>
+      
+      <section class="owl_section">
+        <div class="owl-carousel owl-theme">
+          <% products.filter(product=> product.Rate > 3).forEach(product => { %>
+            <div class="pro" id="pro">
+              <a href="/product-detail/<%= product._id %>">
+                <img src="/uploads/<%= product.Image %>" alt="">
+                <div class="des">
+                  <span>
+                    <%= product.Brand %>
+                  </span>
+                  <h5>
+                    <%= product.Title %>
+                  </h5>
+                  <div class="star">
+                    <% for (let i=0; i < product.Rate; i++) { %>
+                      <i class="fas fa-star"></i>
+                      <% } %>
+                  </div>
+                  <h4>Price: GH&#8353; <%= product.Price.toLocaleString() %>
+                  </h4>
+                </div>
+              </a>
+              <form action="/add-cart/<%= product._id %>" method="post">
+                <button type="submit"><i class="fa fa-shopping-cart"></i></button>
+              </form>
+            </div>
+            <% }); %>
+        </div>
+      </section>
+      <br>
+      <br>
+      <br>
+      
+    <div class="Electirical_field__title">
+      <h2>Featured <span class="primspan"> Products</span></h2>
+    </div>
+    </section>
+    <section id="product1" class="section-p1">
+
+
+      <div class="pro-container">
+        <% products.forEach((product)=> { %>
+          <div class="pro">
+            <a href="/product-detail/<%= product._id %>">
+              <img src="/uploads/<%= product.Image %>" alt="">
+              <div class="des">
+                <span>
+                  <%= product.Brand %>
+                </span>
+                <h5>
+                  <%= product.Title %>
+                </h5>
+                <div class="star">
+                  <% for (let i=0; i < product.Rate; i++) { %>
+                    <i class="fas fa-star"></i>
+                    <% } %>
+                </div>
+                <h4>Price: Ghc <%= product.Price.toLocaleString() %>
+                </h4>
+              </div>
+            </a>
+            <form action="/add-cart/<%= product._id %>" method="post">
+              <button type="submit"><i class="fa fa-shopping-cart"></i></button>
+            </form>
+          </div>
+          <% }); %>
+      </div>
+
+      <div class="pagination">
+        <% if (currentPage> 1) { %>
+          <a href="/All/products?page=<%= currentPage - 1 %>" class="previous">Previous</a>
+          <% } %>
+            <p>
+              <%= currentPage%>
+            </p>
+            <% if (currentPage < totalPages) { %>
+              <a href="/All/products?page=<%= currentPage + 1 %>" class="previous">Next</a>
+              <% } %>
+      </div>
+    </section>
+   
+
+
+    <div class="footer">
+
+    </div>
+
+    <%- include('./layout/down-nav', { isAdmin: isAdmin , totalcount: totalcount}); -%>
+
+      <!-- Include jQuery -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+      <!-- Include Owl Carousel JavaScript -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+      <script>
+        $(document).ready(function () {
+          $('.owl-carousel').owlCarousel({
+            loop: true,
+            margin: 5,
+            nav: true,
+            autoplay: true,
+            autoplayTimeout: 3000,
+            responsive: {
+              0: {
+                items: 1
+              },
+              600: {
+                items: 3
+              },
+              1000: {
+                items: 5
+              }
+            }
+          });
+        });
+      </script>
+</body>
+
+
+</html>

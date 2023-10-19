@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moon || cart</title>
+    <link rel="shortcut icon" href="IMG/logo.png" type="image/x-icon">
+    <%- include('./layout/header'); -%>
+
+
+</head>
+
+<body>
+    <%- include('./layout/top-nav', { isAdmin: isAdmin,  totalcount: totalcount }) -%>
+
+
+
+
+    <section class="category-field">
+
+       <%- include('./layout/left_nav') %>
+
+        <div class="main-content">
+            <form action="/uploadProduct" method="post" enctype="multipart/form-data">
+                <div class="upload_content">
+                    <h2>Upload <span class="primspan">Product</span> </h2>
+                    <input type="text" placeholder="Enter Title" required name="title">
+                    <input type="text" placeholder="Enter Price" required name="price">
+                    <textarea name="description"  id="" cols="30" rows="10" placeholder="Enter description"></textarea>
+                    <input type="file"  name="image" >
+                    <input type="text" name="rate" placeholder="Enter Product Rate" min="1" max="6">
+                    <input type="text" name="category" placeholder="Enter Product category">
+                    <input type="text" name="brand" placeholder="Enter Product Brand">
+                    <button type="submit" value="Upload" >Upload</button>
+                    <br>
+                </div>
+            </form>
+          </div>
+        </div>
+    </section>
+
+
+    <%- include('./layout/down-nav'); -%>
+
+    <div class="footer">
+
+    </div>
+
+    <script src="main.js"></script>
+
+
+</body>
+
+</html>

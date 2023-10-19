@@ -1,0 +1,67 @@
+<header class="top-nav">
+    <div class="logo">
+        <a href="/"><img src="/IMG/MSM_Logo.png" > </a>
+    </div>
+
+    <div class="center">
+        <div class="nav-properties">
+            <a href="/"><i class="fa fa-home"></i> Home</a>
+            <a href="/cartegories"><i class="fas fa-tags"></i> Category</a>
+            <a href="/All/products"><i class="fas fa-cubes"></i> Product</a>
+            <div class="cart_message">
+
+                <a href="/cart"><i class="fa fa-shopping-cart"> Cart</i></a>
+
+                <p class="total_cart">
+                    <%= totalcount %>
+                </p>
+            </div>
+
+            <div class="profile">
+                
+                <a href="#" class="show_profile" id="show"><i class="fas fa-user"> Profile</i>
+                </a>
+                <div class="popout" >
+                    <a href="/user/profile/"><i class="fa fa-user-friends"></i> Profile</a>
+                    <a href="/logout"><i class="fa fa-sign-out-alt"></i> Logout</a>
+                </div>
+            </div>
+            
+            
+            <% if (isAdmin) { %>
+                <a href="/admin/dashboard"><i class="fas fa-user-cog">Admin</i></a>
+                <% } %>
+
+        </div>
+
+    </div>
+    <div class="right">
+
+        <div class="search_bar">
+            <form action="/search" method="GET">
+                <div class="search">
+                    <input type="text" class="search" id="search" placeholder="Search Product" name="query" >
+                    <button class="search_btn"><i class="fa fa-search"></i></button>
+                    <!-- <label for="search"><i class="fa fa-search"></i></label> -->
+                </div>
+            </form>
+
+        </div>
+     
+    </div>
+
+</header>
+
+<script>
+    const popout = document.querySelector(".popout")
+    const show_profile = document.querySelector(".show_profile")
+
+
+  
+    
+        show_profile.addEventListener('click', ()=>{
+            popout.classList.toggle('toggle');
+        })
+
+
+</script>

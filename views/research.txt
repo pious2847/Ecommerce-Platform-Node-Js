@@ -1,0 +1,23 @@
+<script>
+  const showModalButtons = document.querySelectorAll('.show_modal');
+  const hiddenQuantityInput = document.getElementById('hidden-quantity-input');
+
+  showModalButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const quantityInputId = button.getAttribute('data-quantity-input-id');
+      const quantityInput = document.getElementById(quantityInputId);
+      const quantityValue = quantityInput.value;
+      hiddenQuantityInput.value = quantityValue;
+    });
+  });
+</script>
+
+modal field input
+
+<input type="hidden" name="quantity" id="hidden-quantity-input" class="quantity-input">
+
+pay buto
+<button class="show_modal" data-quantity-input-id="quantity-input-<%= i %>">Pay: <%= cart.products[i].total_amount.toLocaleString() %></button>
+
+addtocart form
+<input type="number" placeholder="1" value="<%= cart.products[i].quantity %>" id="quantity-input-<%= i %>">

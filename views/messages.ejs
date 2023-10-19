@@ -1,0 +1,9 @@
+<% if (alert.message.length> 0 ){%>
+  <div class="alert alert-<%= alert.status %>">
+      <p>
+          <%= alert.message %>
+      </p>
+      <button class="messageclose-btn" onclick="this.parentElement.style.display='none';"><i
+              class="fas fa-times"></i></button>
+  </div>
+  <% } %>

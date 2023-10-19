@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> <%= title%> </title>
+   
+    <%- include('./layout/header'); -%>
+    <style>
+        .pro{
+            width:250px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <%- include('./layout/top-nav', { isAdmin: isAdmin , user:user, totalcount: totalcount}) -%>
+
+   
+ 
+    <br>
+    <br>
+    <br>
+ 
+    <section id="hero">
+        <h4>Trade-in-offer</h4>
+        <h2>Super value deal</h2>
+        <h1>On all products</h1>
+        <p>Save more with coupons & get up to 65% off! </p>
+        <button><a href="#product1">Shop Now</a> </button>
+
+    </section>
+
+    <div class="general_message">
+        <%- include('messages', {alert}) %>
+        </div>
+        
+
+    </section>
+    <section id="product1" class="section-p1">
+        <h2>Featured <span class="primspan"> Products</span></h2>
+        
+        <div class="pro-container">
+            <% products.forEach((product)=> { %>
+
+                <div class="pro">
+                    <a href="/product-detail/<%= product._id %>">
+                        <img src="/uploads/<%= product.Image %>" alt="">
+                        <div class="des">
+                            <span>
+                                <%= product.Brand %>
+                            </span>
+                            <h5>
+                                <%= product.Title %>
+                            </h5>
+                            <div class="star">
+                                <% for (let i=0; i < product.Rate; i++) { %>
+                                    <i class="fas fa-star"></i>
+                                    <% } %>
+                            </div>
+                            <h4>Price:GH&#8353; <%= product.Price.toLocaleString()  %>
+                            </h4>
+                        </div>
+                    </a>
+                    <form action="/add-cart/<%= product._id %>" method="post">
+                        <button type="submit" class="add-to-cart-btn" data-product-id="<%= product._id %>">
+                          <i class="fa fa-shopping-cart"></i> 
+                        </button>
+                      </form>
+
+                </div>
+
+
+             <% }); %>
+           
+        </div>
+        <div class="pagination">
+            <% if (currentPage > 1) { %>
+            <a href="/?page=<%= currentPage - 1 %>" class="previous">Previous</a>
+            <% } %>
+            <p><%= currentPage%></p>
+            <% if (currentPage < totalPages) { %>
+            <a href="/?page=<%= currentPage + 1 %>"class="previous" >Next</a>
+            <% } %>
+          </div>
+    </section>
+
+    <%- include('./layout/down-nav', { isAdmin: isAdmin ,  totalcount: totalcount}); -%>
+
+   
+    
+    <script src="main.js"></script>
+
+</body>
+
+</html>

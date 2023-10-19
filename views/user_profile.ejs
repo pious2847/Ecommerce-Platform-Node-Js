@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Moon|Mall Detail page</title>
+
+  <%- include('./layout/header'); -%>
+</head>
+<style>
+  /* Form styles */
+  form {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: left;
+    justify-content: center;
+    grid-gap: 20px;
+  }
+
+  label {
+    font-weight: bold;
+  }
+
+  .input-fields {
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  .align-left {
+    text-align: left;
+  }
+</style>
+
+<body>
+  <%- include('./layout/top-nav', { isAdmin: isAdmin, user , totalcount: totalcount}) -%>
+
+
+    <div class="general_message">
+      <%- include('messages', {alert}) %>
+    </div>
+
+    <section class="product-details">
+      <div class="image_container">
+        <% if (user.image !==" " ) { %>
+          <div class="img_con_after">
+            <i></i>
+          </div>
+          <img src="/uploads/user_profile/<%= user.image  %>" alt="" class="img">
+          <div class="sub_img">
+            <img src="/uploads/user_profile/<%= user.image  %>" alt="">
+          </div>
+          <% } else { %>
+            <div class="img_con_after">
+              <i></i>
+            </div>
+            <img src="/IMG/user-default-pic.jpg" alt="" class="img">
+            <div class="sub_img">
+              <img src="/IMG/user-default-pic.jpg" alt="">
+            </div>
+            <% } %>
+      </div>
+      <br>
+
+    </section>
+    <section class="user_section">
+
+      <div class="detail_inputs">
+        <h2>User Profile<span class="primspan"> Details</span></h2>
+
+        <form action="/update_profile/<%= user._id%>" method="POST" enctype="multipart/form-data">
+          <div class="sub_form">
+
+            <input type="text" id="name" class="input-fields" name="name" placeholder="Enter Username"
+              value="<%= user.name  %>" required>
+
+            <input type="email" id="email" class="input-fields" name="email" placeholder="Enter email"
+              value="<%= user.email  %>" required>
+
+          </div>
+          <div class="sub_form">
+
+            <input type="text" id="phone" class="input-fields" placeholder="Enter Active Phone Number" name="phone"
+              value="<%= user.address.phone  %>">
+
+            <input type="text" id="houseAddress" class="input-fields" placeholder="Enter Your Hse Address"
+              name="houseAddress" value="<%= user.address.House_address  %>">
+          </div>
+          <div class="sub_form">
+
+            <input type="text" id="city" class="input-fields" placeholder="Enter City" name="city"
+              value="<%= user.address.city  %>">
+
+            <input type="text" id="country" class="input-fields" placeholder="Enter country" name="country"
+              value="<%= user.address.country %>">
+          </div>
+
+          <input type="file" id="image" class="input-fields" name="image" accept="image/*">
+          <input type="hidden" id="image" class="input-fields" name="old_image" accept="image/*"
+            value="<%= user.image  %>">
+
+          <button type="submit">Update</button>
+        </form>
+      </div>
+
+    </section>
+    <br>
+    <br>
+    <br>
+    <section class="user_section align-left">
+      <h2>User Ordered<span class="primspan"> Products</span></h2>
+      <div class="edit_product">
+        <table>
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th class="image">Image</th>
+              <th>Username</th>
+              <th>Product</th>
+              <th>Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if (orders && orders.lenght> 0) { %>
+
+
+              <% orders.forEach((order, index,)=> { %>
+                <tr>
+                  <td>
+                    <%= index %>
+                  </td>
+                  <td><img src="/uploads/<%= order.product.Image %>" alt="" class="image"></td>
+                  <td>Abdul Hafis</td>
+                  <td>
+                    <%= order.product.Title %>
+                  </td>
+                  <td>
+                    <a href="/updateProduct/<%= order.product._id %>" class="update" style="border-right: none;"><i
+                        class="fa fa-edit"></i></a>
+                  </td>
+                  <div class="modal hide_modal">
+                    <div class="modal_content">
+                      <div>
+                        <p>Are you sure you want to delete?</p>
+                      </div>
+                      <div class="close_delete">
+                        <a href="/deleteProduct/<%= order.product._id %>" class="yes">Yes</a>
+                        <a href="#" class="close_btn " id="cancle">No</a>
+                      </div>
+                    </div>
+                  </div>
+                </tr>
+
+                <% }); %>
+              <% } else { %>
+                    <tr>
+                      <td colspan="8">No orders found for this user.</td>
+                    </tr>
+                    <% } %>
+          </tbody>
+        </table>
+      </div>
+
+    </section>
+
+    <%- include('./layout/down-nav', { isAdmin: isAdmin , totalcount: totalcount}); -%>
+
+      <div class="footer">
+
+      </div>
+
+</body>
+
+</html>

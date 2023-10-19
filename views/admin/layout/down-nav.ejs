@@ -1,0 +1,9 @@
+<div class="down-nav">
+    <a href="/admin/dashboard"><i class="fa fa-home"></i> Home</a>
+    <a href="/admin/all-products"><i class="fas fa-cubes"></i> Product</a>
+    <a href="/admin/add-product"><i class="fas fa-plus"></i> Add Product</a>
+    <a href="/admin/edit-product"> <i class="fas fa-edit"></i> Edit Products</a>
+    <% if (isAdmin) { %>
+     <a href="/admin/dashboard"><i class="fas fa-user-cog"></i> Admin</a>
+     <% } %>
+</div>

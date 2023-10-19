@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moon | Login-page</title>
+
+
+    <%- include('./layout/header'); -%>
+
+</head>
+
+<body>
+
+    <section class="login-page">
+        <div class="login-form">
+
+            <div class="carouselContainer">
+                <div class="carouselImgs slide1">
+                    <img src="./products/f4.jpg" alt="">
+                </div>
+                <div class="carouselImgs slide2">
+                    <img src="./products/f7.jpg" alt="">
+                </div>
+                <div class="carouselImgs slide3">
+                    <img src="./products/f3.jpg" alt="">
+                </div>
+                <div class="carouselImgs slide4">
+                    <img src="./products/f3.jpg" alt="">
+                </div>
+                <span class="prev" id="prev">
+                    < </span>
+                        <span class="next" id="next">
+                            > </span>
+            </div>
+
+            <div class="login-card">
+                <div class="img">
+
+                    <img src="../IMG/MSM_Logo.png" alt="">
+                </div>
+                
+
+                <% if (alert.message.length> 0 ){%>
+                    <div class="alert alert-<%= alert.status %>">
+                        <p>
+                            <%= alert.message %>
+                        </p>
+                        <button class="messageclose-btn" onclick="this.parentElement.style.display='none';"><i
+                                class="fas fa-times"></i></button>
+                    </div>
+                    <% } %>
+                        <form action="/login" method="post">
+
+                            <input type="email" name="email" placeholder="Enter Email" class="password" required>
+                            <input type="password" name="password" placeholder="password" class="password" required>
+
+                            <div class="remember-me">
+                                <label>
+                                    <input type="checkbox" name="rememberMe">
+                                    Remember Me
+                                </label>
+                            </div>
+                            
+                            <button type="submit" class="button">Login</button>
+                        </form>
+                        <div class="link">
+                            <a href="#">Forget password</a> or <a href="/sign-up">Sign Up?</a>
+                        </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <script src="main.js"></script>
+</body>
+
+</html>

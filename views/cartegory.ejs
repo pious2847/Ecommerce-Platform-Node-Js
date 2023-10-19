@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moon || cart</title>
+
+    <%- include('./layout/header'); -%>
+        <style>
+            .pro {
+                width: 19%;
+                min-width: 180px;
+                height: 250px;
+            }
+
+            .pro img {
+                height: 130px;
+            }
+            .pro h5{
+                font-size: 9px;
+            }
+        </style>
+        <!-- Include Owl Carousel CSS -->
+        <link rel="stylesheet" href="./carousel/owl.carousel.min.css">
+        <link rel="stylesheet" href="./carousel/owl.theme.default.min.css">
+</head>
+
+<body>
+    <%- include('./layout/top-nav', { isAdmin: isAdmin , totalcount: totalcount}) -%>
+
+
+
+    <div class="general_message">
+        <%- include('messages', {alert}) %>
+        </div>
+
+        <section class="category-field">
+            <div class="left_panel">
+                <div class="properties">
+                    <a href="#">Fashion</a>
+                    <a href="#electricals">Electronics & Digital</a>
+                    <a href="#kid">Kids / Baby</a>
+                    <a href="#office">Office/School</a>
+                    <a href="#medicals">Cosmetics/Finess</a>
+                    <a href="#home">Home/Building</a>
+                    <a href="#Kitchen">Kitchen/Utensils</a>
+                </div>
+
+            </div>
+            <div class="category_main-content">
+                <section class="Electirical_field" id="electricals">
+
+                    <div class="Electirical_field__title flex-container">
+                        <h3><span class="primspan">Fashion</span></h3>
+                        <form action="/search/category" method="Get">
+                            <input type="hidden" value="Fashion" name="query">
+                            <button><i class="fa fa-star"></i></button>
+                        </form>
+                    </div>
+                    <div class="Electical_products">
+                        <div class="owl-carousel owl-theme">
+                            <% products.filter(product=> product.Category === 'Fashion' || product.Category === 'fashion').forEach(product => { %>
+                                <div class="pro">
+                                    <a href="/product-detail/<%= product._id %>">
+                                        <img src="/uploads/<%= product.Image %>" alt="">
+                                        <div class="des">
+                                            <span>
+                                                <%= product.Brand %>
+                                            </span>
+                                            <h5>
+                                                <%= product.Title %>
+                                            </h5>
+                                            <div class="star">
+                                                <% for (let i=0; i < product.Rate; i++) { %>
+                                                    <i class="fas fa-star"></i>
+                                                    <% } %>
+                                            </div>
+                                            <h4>Price: GH&#8353; <%= product.Price.toLocaleString() %>
+                                            </h4>
+                                        </div>
+                                    </a>
+                                    <form action="/add-cart/<%= product._id %>" method="post">
+                                        <button type="submit"><i class="fa fa-shopping-cart"></i></button>
+                                    </form>
+                                </div>
+                                <% }); %>
+                        </div>
+                    </div>
+                </section>
+                <br>
+                <br>
+                <br>
+                <section class="Electirical_field" id="electricals">
+
+                    <div class="Electirical_field__title flex-container">
+                        <h3>Electronics & <span class="primspan">Digitals</span></h3>
+                        <form action="/search/category" method="Get">
+                            <input type="hidden" value="Electronics" name="query">
+                            <button><i class="fa fa-sta"></i></button>
+                        </form>
+                    </div>
+                    <div class="Electical_products">
+                        <div class="owl-carousel owl-theme">
+                            <% products.filter(product=>  product.Category === 'Electronics'|| product.Category === 'Electricals' || product.Category === 'electricals' || product.Category === 'Digitals' ||product.Category === 'Electricals,Digitals').forEach(product => { %>
+                                <div class="pro">
+                                    <a href="/product-detail/<%= product._id %>">
+                                        <img src="/uploads/<%= product.Image %>" alt="">
+                                        <div class="des">
+                                            <span>
+                                                <%= product.Brand %>
+                                            </span>
+                                            <h5>
+                                                <%= product.Title %>
+                                            </h5>
+                                            <div class="star">
+                                                <% for (let i=0; i < product.Rate; i++) { %>
+                                                    <i class="fas fa-star"></i>
+                                                    <% } %>
+                                            </div>
+                                            <h4>Price: Ghc <%= product.Price.toLocaleString() %>
+                                            </h4>
+                                        </div>
+                                    </a>
+                                    <form action="/add-cart/<%= product._id %>" method="post">
+                                        <button type="submit"><i class="fa fa-shopping-cart"></i></button>
+                                    </form>
+                                </div>
+                                <% }); %>
+                        </div>
+                    </div>
+
+                </section>
+                <br>
+                <br>
+                <br>
+                <section class="Electirical_field" id="kid">
+
+                    <div class="Electirical_field__title flex-container">
+                        <h3>Kid / <span class="primspan">Babies</span></h3>
+                        <form action="/search/category" method="Get">
+                            <input type="hidden" value="Kids" name="query">
+                            <button><i class="fa fa-star"></i></button>
+                        </form>
+                    </div>
+                    <div class="Electical_products">
+                        <div class="owl-carousel owl-theme">
+                            <% products.filter(product=> product.Category === 'Kids' || product.Category === 'kids' || product.Category === "Babies" || product.Category ===  "babies").forEach(product => { %>
+                                <div class="pro">
+                                    <a href="/product-detail/<%= product._id %>">
+                                        <img src="/uploads/<%= product.Image %>" alt="">
+                                        <div class="des">
+                                            <span>
+                                                <%= product.Brand %>
+                                            </span>
+                                            <h5>
+                                                <%= product.Title %>
+                                            </h5>
+                                            <div class="star">
+                                                <% for (let i=0; i < product.Rate; i++) { %>
+                                                    <i class="fas fa-star"></i>
+                                                    <% } %>
+                                            </div>
+                                            <h4>Price: Ghc <%= product.Price.toLocaleString() %>
+                                            </h4>
+                                        </div>
+                                    </a>
+                                    <form action="/add-cart/<%= product._id %>" method="post">
+                                        <button type="submit"><i class="fa fa-shopping-cart"></i></button>
+                                    </form>
+                                </div>
+                                <% }); %>
+                        </div>
+                    </div>
+
+                </section>
+                <br>
+                <br>
+                <br>
+                <section class="Electirical_field" id="Office">
+
+                    <div class="Electirical_field__title flex-container">
+                        <h3>Office / <span class="primspan">School</span></h3>
+                        <form action="/search/category" method="Get">
+                            <input type="hidden" value="Office" name="query">
+                            <button><i class="fa fa-star"></i></button>
+                        </form>
+                    </div>
+                    <div class="Electical_products">
+                        <div class="owl-carousel owl-theme">
+                            <% products.filter(product=> product.Category === "Office" || product.Category === "office" || product.Category === "School" || product.Category === "school").forEach(product => { %>
+                                <div class="pro">
+                                    <a href="/product-detail/<%= product._id %>">
+                                        <img src="/uploads/<%= product.Image %>" alt="">
+                                        <div class="des">
+                                            <span>
+                                                <%= product.Brand %>
+                                            </span>
+                                            <h5>
+                                                <%= product.Title %>
+                                            </h5>
+                                            <div class="star">
+                                                <% for (let i=0; i < product.Rate; i++) { %>
+                                                    <i class="fas fa-star"></i>
+                                                    <% } %>
+                                            </div>
+                                            <h4>Price: Ghc <%= product.Price.toLocaleString() %>
+                                            </h4>
+                                        </div>
+                                    </a>
+                                    <form action="/add-cart/<%= product._id %>" method="post">
+                                        <button type="submit"><i class="fa fa-shopping-cart"></i></button>
+                                    </form>
+                                </div>
+                                <% }); %>
+                        </div>
+                    </div>
+
+                </section>
+                <br>
+                <br>
+                <br>
+                <section class="Electirical_field" id="medical">
+
+                    <div class="Electirical_field__title flex-container">
+                        <h3>Cosmetics / <span class="primspan">Fitness</span></h3>
+                        <form action="/search/category" method="Get">
+                            <input type="hidden" value="Cosmetics" name="query">
+                            <button><i class="fa fa-star"></i></button>
+                        </form>
+                    </div>
+                    <div class="Electical_products">
+                        <div class="owl-carousel owl-theme">
+                            <% products.filter(product=> product.Category === "Cosmetics" || product.Category === "cosmetics" || product.Category === "Fitness" || product.Category === "fitness").forEach(product => { %>
+                                <div class="pro">
+                                    <a href="/product-detail/<%= product._id %>">
+                                        <img src="/uploads/<%= product.Image %>" alt="">
+                                        <div class="des">
+                                            <span>
+                                                <%= product.Brand %>
+                                            </span>
+                                            <h5>
+                                                <%= product.Title %>
+                                            </h5>
+                                            <div class="star">
+                                                <% for (let i=0; i < product.Rate; i++) { %>
+                                                    <i class="fas fa-star"></i>
+                                                    <% } %>
+                                            </div>
+                                            <h4>Price: Ghc <%= product.Price.toLocaleString() %>
+                                            </h4>
+                                        </div>
+                                    </a>
+                                    <form action="/add-cart/<%= product._id %>" method="post">
+                                        <button type="submit"><i class="fa fa-shopping-cart"></i></button>
+                                    </form>
+                                </div>
+                                <% }); %>
+                        </div>
+                    </div>
+
+                </section>
+                <br>
+                <br>
+                <br>
+                <section class="Electirical_field" id="home">
+
+                    <div class="Electirical_field__title flex-container">
+                        <h3>Home / <span class="primspan">Building</span></h3>
+                        <form action="/search/category" method="Get">
+                            <input type="hidden" value="Home" name="query">
+                            <button><i class="fa fa-star"></i></button>
+                        </form>
+                    </div>
+                    <div class="Electical_products">
+                        <div class="owl-carousel owl-theme">
+                            <% if (products && products.length > 0) { %>
+                                <% products.filter(product=> product.Category === "Home" || product.Category === "home" || product.Category === "Building" || product.Category === "building" ).forEach(product => { %>
+                                    <div class="pro">
+                                        <a href="/product-detail/<%= product._id %>">
+                                            <img src="/uploads/<%= product.Image %>" alt="">
+                                            <div class="des">
+                                                <span>
+                                                    <%= product.Brand %>
+                                                </span>
+                                                <h5>
+                                                    <%= product.Title %>
+                                                </h5>
+                                                <div class="star">
+                                                    <% for (let i=0; i < product.Rate; i++) { %>
+                                                        <i class="fas fa-star"></i>
+                                                        <% } %>
+                                                </div>
+                                                <h4>Price: Ghc <%= product.Price.toLocaleString() %>
+                                                </h4>
+                                            </div>
+                                        </a>
+                                        <form action="/add-cart/<%= product._id %>" method="post">
+                                            <button type="submit"><i class="fa fa-shopping-cart"></i></button>
+                                        </form>
+                                    </div>
+                                    <% }); %>
+                            <% } else { %>
+                                <h4>No products found in this category</h4>
+                            <% } %>
+                             
+                             
+                           
+                        </div>
+                    </div>
+
+                </section>
+                <br>
+                <br>
+                <br>
+                <section class="Electirical_field" id="Kitchen">
+
+                    <div class="Electirical_field__title flex-container">
+                        <h3>Kitchen / <span class="primspan">Utensils</span></h3>
+                    </div>
+                    <div class="Electical_products">
+                        <div class="owl-carousel owl-theme">
+                            <% products.filter(product=> product.Category === "Kitchen" || products.Category === "kitchen" || product.Category === "Utensils" || product.Category === "Utensils" || product.Category === "Kitchen,Utensils").forEach(product => { %>
+                                <div class="pro">
+                                    <a href="/product-detail/<%= product._id %>">
+                                        <img src="/uploads/<%= product.Image %>" alt="">
+                                        <div class="des">
+                                            <span>
+                                                <%= product.Brand %>
+                                            </span>
+                                            <h5>
+                                                <%= product.Title %>
+                                            </h5>
+                                            <div class="star">
+                                                <% for (let i=0; i < product.Rate; i++) { %>
+                                                    <i class="fas fa-star"></i>
+                                                    <% } %>
+                                            </div>
+                                            <h4>Price: Ghc <%= product.Price.toLocaleString() %>
+                                            </h4>
+                                        </div>
+                                    </a>
+                                    <form action="/add-cart/<%= product._id %>" method="post">
+                                        <button type="submit"><i class="fa fa-shopping-cart"></i></button>
+                                    </form>
+                                </div>
+                                <% }); %>
+                        </div>
+                    </div>
+
+                </section>
+            </div>
+
+        </section>
+
+
+        <%- include('./layout/down-nav', { isAdmin: isAdmin , totalcount: totalcount}); -%>
+
+            <div class="footer">
+
+            </div>
+
+            <script src="main.js"></script>
+
+            <!-- Include jQuery -->
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+            <!-- Include Owl Carousel JavaScript -->
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+            <script>
+                $(document).ready(function () {
+                    $('.owl-carousel').owlCarousel({
+                        loop: true,
+                        margin: 10,
+                        nav: true,
+                        autoplay: true,
+                        autoplayTimeout: 3000,
+                        responsive: {
+                            0: {
+                                items: 1
+                            },
+                            600: {
+                                items: 3
+                            },
+                            1000: {
+                                items: 5
+                            }
+                        }
+                    });
+                });
+            </script>
+</body>
+
+</html>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Moon|Mall Detail page</title>
+
+  <%- include('./layout/header'); -%>
+    <!-- Other meta tags and stylesheets -->
+    <script src="https://js.stripe.com/v3/"></script>
+</head>
+<style>
+  #pro{
+    width: 18%;
+  }
+</style>
+<body>
+  <%- include('./layout/top-nav', { isAdmin: isAdmin , totalcount: totalcount}) -%>
+
+
+
+    <section class="product_details">
+
+      <div class="product-img">
+        <img src="/uploads/<%= product.image %>" alt="">
+      </div>
+
+      <div class="detail_descriptons">
+        <div class="title">
+          <h2>
+            <%= product.iitle %>
+          </h2>
+          <p>Price: GH&#8353;<span class="primspan">
+              <%= product.price.toLocaleString() %>
+            </span></p>
+          <div class="star">
+            <% for (let i=0; i < product.rate; i++) { %>
+              <i class="fas fa-star"></i>
+              <% } %>
+          </div>
+        </div>
+
+        <div class="detail-content">
+          <h2><span class="primspan">Description</span></h2>
+          <br>
+          <p>
+            <%= product.description %>
+          </p>
+        </div>
+        <br>
+
+
+
+        <form action="/cart/<%= cart._id %>/product/<%= product._id%>" method="GET">
+          <div class="quantity">
+            <p>Quantity</p>
+            <input type="number" name="quantity" id="quantity" placeholder="1" value="<%= product.quantity%>">
+          </div>
+          <br>
+          <br>
+          <div class="check">
+            <button type="submit" class="alert-danger">Remove Cart</button>
+            <a href="#" class="show_modal" id="buy">Buy</a>
+          </div>
+        </form>
+      </div>
+
+     
+    </section>
+
+    <section class="Related_product">
+      <h2>Related <span class="primspan"> Products</span></h2>
+      <div class="pro-container">
+
+        <% relatedProducts.forEach((relatedProduct)=> { %>
+          <div class="pro" id="pro">
+            <a href="/product-detail/<%= relatedProduct._id %>">
+              <img src="/uploads/<%= relatedProduct.Image %>" alt="">
+              <div class="des">
+                <span>
+                  <%= relatedProduct.Brand %>
+                </span>
+                <h5>
+                  <%= relatedProduct.Title %>
+                </h5>
+                <div class="star">
+                  <% for (let i=0; i < relatedProduct.Rate; i++) { %>
+                    <i class="fas fa-star"></i>
+                    <% } %>
+                </div>
+                <h4>Price: GHC <%= relatedProduct.Price%>
+                </h4>
+              </div>
+            </a>
+            <form action="/add-cart/<%= relatedProduct._id %>" method="post">
+              <button type="submit"><i class="fa fa-shopping-cart"></i></button>
+            </form>
+          </div>
+          <% }); %>
+      </div>
+    </section>
+    <div class="modal hide_modal">
+      <div class="form-container">
+        <form action="/buy-product/<%= product._id %>" method="post" enctype="multipart/form-data">
+          <input type="hidden" name="quantity" value="<%= product.Price %>" class="quantity2"></input>
+
+          <h3 class="form-heading">Shipping <span class="form-heading-primary">Address</span></h3>
+          <div class="form-group">
+            <label for="Phone">Active contact</label>
+            <input type="text" class="form-input" placeholder="Enter Active Phone Number" required name="phone" >
+            <label for="house_address">House Address</label>
+            <input type="text" class="form-input" placeholder="Enter House Address" required name="house_address" >
+          </div>
+          <div class="form-group">
+            <label for="city">City</label>
+            <input type="text" class="form-input" placeholder="Enter City" required name="city" >
+            <label for="country">Country</label>
+            <input type="text" class="form-input" name="country" placeholder="Country" >
+          </div>
+          <div class="form-actions">
+             <button type="submit" class="form-btn form-btn-primary yes">Proceed</button>
+            <a href="#" class="form-btn form-btn-secondary close_btn" id="cancel">Cancel</a>
+          </div>
+        </form>
+
+      </div>
+    </div>
+
+
+    <%- include('./layout/down-nav', { isAdmin: isAdmin , totalcount: totalcount}); -%>
+
+      <div class="footer"></div>
+        <script>
+          const modal = document.querySelector(".modal");
+          const show_modal = document.querySelectorAll('.show_modal');
+          const close_btn = document.querySelector(".close_btn");
+  
+          let selectProductId = null; // Variable to store the selected product ID
+  
+          show_modal.forEach(sdm => {
+            if (modal) {
+              sdm.addEventListener('click', (event) => {
+                event.preventDefault();
+                selectProductId = sdm.getAttribute('data-product-id');
+                console.log(selectProductId);
+                modal.classList.remove('hide_modal');
+              });
+            }
+            close_btn.addEventListener("click", () => {
+              modal.classList.add("hide_modal");
+              selectProductId = null; // Reset the selected product ID
+            });
+  
+            const yesButton = modal.querySelector('.yes');
+            if (yesButton) {
+              yesButton.addEventListener('click', () => {
+                if (selectProductId) {
+                  deleteProduct(selectProductId); // Call the function to delete the product
+                }
+                modal.classList.add('hide_modal');
+              });
+            }
+          });
+  
+        
+  
+        </script>
+  
+     
+</body>
+
+</html>

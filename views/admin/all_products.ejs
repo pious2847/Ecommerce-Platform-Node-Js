@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moon || cart</title>
+    <link rel="shortcut icon" href="IMG/logo.png" type="image/x-icon">
+  
+    <%- include('./layout/header'); -%>
+
+</head>
+
+<body>
+    <%- include('./layout/top-nav', { isAdmin: isAdmin }) -%>
+
+
+
+
+    <section class="category-field">
+        
+       <%- include('./layout/left_nav') %>
+
+        <div class="main-content">
+            <section id="product1" class="section-p1">
+                <h2>Featured <span class="primspan"> Products</span></h2>
+    
+    
+                <div class="pro-container">
+                    <!-- views/products.ejs -->
+    
+    
+                    <% products.forEach((product)=> { %>
+                        <div class="pro">
+                    <a href="/product-detail/<%= product._id %>">
+
+                            <img src="/uploads/<%= product.Image %>" alt="">
+                            <div class="des">
+                                <span>
+                                    <%= product.Brand %>
+                                </span>
+                                <h5>
+                                    <%= product.Title %>
+                                </h5>
+                                <div class="star">
+                                    <% for (let i=0; i < product.Rate; i++) { %>
+                                        <i class="fas fa-star"></i>
+                                        <% } %>
+                                </div>
+                                <h4>Price:Ghc <%= product.Price.toLocaleString()  %>
+                                </h4>
+                            </div>
+                        </a>        
+                            <form action="/add-cart" method="post">
+                                <input type="hidden" value="" name="product_id" <% product._id %>>
+                                <button type="submite"><i class="fa fa-shopping-cart"></i></button>
+                                <!-- <a href="/add-cart"></a> -->
+                            </form>
+                        </div>
+                        <% }); %>
+    
+    
+                </div>
+            </section>
+            <div class="pagination">
+                <% if (currentPage > 1) { %>
+                <a href="/admin/all-products?page=<%= currentPage - 1 %>" class="previous">Previous</a>
+                <% } %>
+                <p><%= currentPage%></p>
+                <% if (currentPage < totalPages) { %>
+                <a href="/admin/all-products?page=<%= currentPage + 1 %>"class="previous" >Next</a>
+                <% } %>
+              </div>
+            </div>
+        </div>
+    </section>
+
+
+    <%- include('./layout/down-nav'); -%>
+
+    <div class="footer">
+
+    </div>
+
+
+
+</body>
+
+</html>

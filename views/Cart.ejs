@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Moon || Cart</title>
+
+  <%- include('./layout/header'); -%>
+    <script src="https://js.stripe.com/v3/"></script>
+
+</head>
+
+<body>
+  <%- include('./layout/top-nav', { isAdmin: isAdmin , totalcount: totalcount}) -%>
+
+    <div class="general_message">
+      <%- include('messages', {alert}) %>
+    </div>
+
+
+    <section class="added-cart">
+      <h2>My<span class="primspan"> Cart</span></h2>
+
+      <% if (carts && carts.length> 0 ) { %>
+        <% carts.forEach((cart)=> { %>
+          <div class="cart">
+
+            <div class="cart-img">
+              <img src="/uploads/<%= cart.product.Image %>" alt="<%= cart.product.Title %>">
+            </div>
+
+            <div class="cart-content">
+              <h3>
+                <%= cart.product.Title %>
+              </h3>
+            </div>
+
+            <div class="quantity-price">
+              <div class="quantity">
+                <p>Quantity</p>
+                <input type="number" min="1"  value="<%= cart.quantity %>" class="quantity">
+              </div>
+              <div class="price">
+                <p name="price">Price: GH&#8353; <%= cart.product.Price %>
+                </p>
+              </div>
+              <div class="check-out">
+                <button class="show_modal">Pay: GHC <%= cart.total_amount %></button>
+              </div>
+            </div>
+
+            <div class="close-btn">
+              <a href="/remove-cart/<%= cart._id %>"><i class="fas fa-times"></i></a>
+            </div>
+          </div>
+
+          <div class="modal hide_modal">
+            <div class="form-container">
+              <form action="/buy-cartproduct/<%= cart.product._id %>" method="post">
+
+                <h3 class="form-heading">Shipping <span class="form-heading-primary">Address</span></h3>
+                <div class="form-group">
+                  <label for="Phone">Active contact</label>
+                  <input type="text" class="form-input" placeholder="Enter Active Phone Number" required name="phone">
+                  <label for="house_address">House Address</label>
+                  <input type="text" class="form-input" placeholder="Enter House Address" required name="house_address">
+                </div>
+                <div class="form-group">
+                  <label for="city">City</label>
+                  <input type="text" class="form-input" placeholder="Enter City" required name="city">
+                  <label for="country">Country</label>
+                  <input type="text" class="form-input" name="country" placeholder="Country">
+                  <lable for="quantity">Enter Quantity</lable>
+                  <input type="number" class="form-input" name="quantity"min="1" placeholder="Quantity" required value="<%= cart.quantity%>">
+                </div>
+                <div class="payment-field">
+                  <div class="total-price">
+                    <input type="checkbox" id="" name="buyall"  class="checked">
+                    <p>All products Total: <strong><span id="total-price" class="primspan"> GHC <%= carts.totalcost %>
+                            </span></strong></p>
+                  </div>
+                  
+                </div>
+                <div class="form-actions">
+                  <button type="submit" class="form-btn form-btn-primary yes">Proceed</button>
+                  <a href="#" class="form-btn form-btn-secondary close_btn" id="cancel">Cancel</a>
+                </div>
+              </form>
+
+            </div>
+          </div>
+
+
+          <% }); %>
+         
+            <div class="payment-field">
+              <div class="total-price">
+                <input type="checkbox" id="" name="buyall"  class="checked">
+                <p>All products Total: <strong><span id="total-price" class="primspan"> GHC <%= carts.totalcost %>
+                        </span></strong></p>
+              </div>
+              <div class="check">
+
+                <button class="show_modal">Make payment</button>
+              </div>
+            </div>
+          
+            <% } else { %>
+              <p>Your cart is empty. Shop and add more products.</p>
+
+
+              <% } %>
+    </section>
+    <br>
+
+    <%- include('./layout/down-nav', { isAdmin: isAdmin }); -%>
+      <div class="footer"></div>
+
+      <script src="main.js"></script>
+      <script src="modal.js"></script>
+      <script>
+        const delete_modal = document.querySelector(".delete_modal");
+        const show_delete_modal = document.querySelectorAll('.show_delete_modal');
+        const delete_btn = document.querySelector(".delete_btn");
+
+        let selectedProductId = null; // Variable to store the selected product ID
+
+        show_delete_modal.forEach(sdm => {
+          if (delete_modal) {
+            sdm.addEventListener('click', (event) => {
+              event.preventDefault();
+              selectedProductId = sdm.getAttribute('data-product-id');
+              console.log(selectedProductId);
+              delete_modal.classList.remove('hide_modal');
+            });
+          }
+
+          delete_btn.addEventListener("click", () => {
+            delete_modal.classList.add("hide_modal");
+            selectedProductId = null; // Reset the selected product ID
+          });
+
+          const yesButton = delete_modal.querySelector('.yes');
+          if (yesButton) {
+            yesButton.addEventListener('click', () => {
+              if (selectedProductId) {
+                deleteProduct(selectedProductId); // Call the function to delete the product
+              }
+              delete_modal.classList.add('hide_modal');
+            });
+          }
+        });
+
+        // Function to delete the product
+        function deleteProduct(productId) {
+          // Make an AJAX request to the server to delete the product
+          fetch(`/cart/${cartId}/product/${productId}`, {
+            method: 'GET',
+          })
+            .then(response => response.json())
+            .then(data => {
+              if (data.success) {
+                // Product deleted successfully
+                // You can perform any necessary UI updates here (e.g., remove the deleted product from the table)
+                console.log("Product deleted successfully");
+                window.location.href = "/"; // Redirect to the admin dashboard
+              } else {
+                // Failed to delete the product
+                // Handle the error or display an error message to the user
+                console.error("Failed to delete the product");
+              }
+            })
+            .catch(error => {
+              // Handle any network or server errors
+              console.error(error);
+            });
+        }
+      </script>
+
+      <script>
+        const modal = document.querySelector(".modal");
+        const show_modal = document.querySelectorAll('.show_modal');
+        const close_btn = document.querySelector(".close_btn");
+        const quantityInput = document.querySelector(".quantity2");
+
+        show_modal.forEach(sdm => {
+          sdm.addEventListener('click', (event) => {
+            event.preventDefault();
+            modal.classList.remove('hide_modal');
+
+            // Set the quantity in the modal input
+            const quantity = sdm.getAttribute('data-quantity');
+            quantityInput.value = quantity;
+          });
+        });
+
+        close_btn.addEventListener("click", () => {
+          modal.classList.add("hide_modal");
+        });
+
+
+      </script>
+
+
+      <script src="https://js.stripe.com/v3/"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Moon || Cart</title>
+
+  <%- include('./layout/header'); -%>
+</head>
+
+<body>
+  <%- include('./layout/top-nav', { isAdmin: isAdmin }); -%>
+  <div class="general_message">
+    <%- include('messages', {alert}) %>
+    </div>
+  <section class="added-cart">
+    <h2>My<span class="primspan"> Cart</span></h2>
+
+    <% if (cart && cart.products && cart.products.length > 0) { %>
+      <% for (var i = 0; i < cart.products.length; i++) { %>
+        <div class="cart">
+          <a href="/product-detail/<%= cart.products[i]._id %>">
+            <div class="cart-img">
+              <img src="/uploads/<%= cart.products[i].image %>" alt="<%= cart.products[i].title %>">
+            </div>
+          </a>
+
+          <div class="cart-content">
+            <h3>
+              <%= cart.products[i].title  %>
+            </h3>
+          </div>
+
+          <div class="quantity-price">
+            <div class="quantity">
+              <p>Quantity</p>
+              <input type="number" placeholder="1" value="<%= cart.products[i].quantity %>">
+            </div>
+            <div class="price">
+              <p>Price: GHC <%= cart.products[i].price.toLocaleString() %>
+              </p>
+            </div>
+            <div class="check-out">
+              <input type="hidden" value="<%= cart.total_amount %>">
+              <button class="show_modal">Pay : <%= cart.total_amount %></button>
+            </div>
+          </div>
+          <div class="close-btn">
+            <button class="show_delete_modal"><i class="fas fa-times"></i></button>
+            <!-- <a href="#" class="show_modal2"></a> -->
+          </div>
+        </div>
+
+        <div class="modal hide_modal">
+          <div class="form-container">
+            <form action="/uploadProduct" method="post" enctype="multipart/form-data">
+              <input type="hidden" name="stripeMoney" value="<%= cart.total_amount %>">
+
+              <h3 class="form-heading">Shipping <span class="form-heading-primary">Address</span></h3>
+              <div class="form-group">
+                <input type="text" class="form-input" placeholder="Enter Title" required name="phone">
+                <input type="text" class="form-input" placeholder="Enter Price" required name="price">
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-input" placeholder="Enter Price" required name="price">
+                <input type="text" class="form-input" name="brand" placeholder="Enter Product Brand">
+              </div>
+              <div class="form-actions">
+                <a href="/buy/<%= cart.products[i]._id %>" class="form-btn form-btn-primary">Proceed</a>
+                <a href="#" class="form-btn form-btn-secondary close_btn" id="cancel">Cancel</a>
+              </div>
+            </form>
+
+          </div>
+        </div>
+
+        <div class="delete_modal hide_modal">
+          <div class="modal_content">
+            <div>
+              <p>Are you sure you want to delete?</p>
+            </div>
+            <div class="close_delete">
+              <a href="/deleteProduct/<%= cart.products[i]._id %>" class="yes">Yes</a>
+              <a href="#" class="delete_btn " id="cancle">No</a>
+            </div>
+          </div>
+        </div>
+
+      <% } %>
+    <% } else { %>
+      <p>Your cart is empty.</p>
+    <% } %>
+
+    <div class="payment-field">
+      <div class="total-price">
+        <input type="checkbox" id="">
+        <p>All products Total: GHC <span id="total-price"></span></p>
+      </div>
+      <div class="check">
+        <button>Make payment</button>
+      </div>
+    </div>
+  </section>
+
+  <br>
+
+  <%- include('./layout/down-nav', { isAdmin: isAdmin }); -%>
+  <div class="footer"></div>
+
+  <script>
+    // Function to calculate the total price of products in the cart
+    function calculateTotalPrice() {
+      let totalPrice = 0;
+
+      if (cart.products && cart.products.length > 0) {
+        cart.products[i].forEach((product) => {
+          totalPrice += parent( product.price) * parseInt( product.quantity);
+        });
+      }
+      return totalPrice.toLocaleString();
+    }
+
+    // Update the total price display
+    function updateTotalPrice() {
+      const totalPriceElement = document.getElementById('total-price');
+      totalPriceElement.innerText = calculateTotalPrice();
+    }
+
+    // Initial update of the total price
+    updateTotalPrice();
+  </script>
+
+</body>
+
+</html>

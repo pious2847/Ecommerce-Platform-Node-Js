@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moon || cart</title>
+   
+</head>
+
+<link rel="shortcut icon" href="IMG/logo.png" type="image/x-icon">
+
+<%- include('./layout/header'); -%>
+<body>
+    <%- include('./layout/top-nav', { isAdmin: isAdmin }) -%>
+
+
+
+
+    <section class="category-field">
+
+       <%- include('./layout/left_nav') %>
+
+        <div class="main-content">
+          <div class="Upload_field ">
+            <form action="/updateProduct/<%= product._id %>" method="post" enctype="multipart/form-data">
+                <div class="upload_content">
+                    <h2>Update <span class="primspan">Product</span> </h2>
+                    <input type="text" placeholder="Enter Title" required name="title" value="<%= product.Title%>">
+                    <input type="text" placeholder="Enter Price" required name="price" value="<%= product.Price%>">
+                    <textarea name="description"  id="" cols="30" rows="10" placeholder="Enter description" ><%= product.Description %></textarea>
+                    <input type="file"  name="image">
+                    <input type="hidden"  name="old_image"  value="<%= product.Image %>">
+                    <input type="text" name="rate" placeholder="Enter Product Rate" value="<%= product.Rate%>">
+                    <input type="text" name="category" placeholder="Enter Product Rate" value="<%= product.Category%>">
+                    <input type="text" name="brand" placeholder="Enter Product Brand" value="<%= product.Brand%>">
+                    <button type="submit" value="Upload" >Update</button>
+                    <br>
+                </div>
+            </form>
+          </div>
+        </div>
+    </section>
+
+
+    <%- include('./layout/down-nav'); -%>
+
+    <div class="footer">
+
+    </div>
+
+    <!-- <script src="main.js"></script> -->
+
+
+</body>
+
+</html>

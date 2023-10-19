@@ -1,0 +1,45 @@
+<header class="top-nav">
+    <div class="logo">
+        <a href="/"><img src="/IMG/MSM_Logo.png" > </a>
+    </div>
+
+    <div class="center">
+        <div class="nav-properties">
+            <a href="/"><i class="fa fa-home"></i> Home</a>
+            <a href="/cartegories"><i class="fas fa-tags"></i> Category</a>
+            <a href="/All/products"><i class="fas fa-cubes"></i> Product</a>
+            <div class="cart_message">
+
+                <a href="/cart"><i class="fa fa-shopping-cart"></i> Cart</a>
+
+                <p class="total_cart"><%= totalcount %></p>
+
+            </div>
+            <div class="profile">
+                <i class="fas fa-user"></i>
+                <a href="/logout">
+                    <p>Profile</p>
+                </a>
+            </div>
+            <% if (isAdmin) { %>
+                <a href="/admin/dashboard"><i class="fas fa-user-cog"></i> Admin</a>
+              <% } %>
+
+        </div>
+
+    </div>
+    <div class="right">
+
+        <div class="search_bar">
+            <form action="/search" method="GET">
+                <div class="search">
+                    <input type="text" class="search" id="search" placeholder="Search Product" name="query">
+                    <button class="search_btn"><i class="fa fa-search"></i></button>
+                    <!-- <label for="search"><i class="fa fa-search"></i></label> -->
+                </div>
+            </form>
+           
+        </div>
+    </div>
+
+</header>

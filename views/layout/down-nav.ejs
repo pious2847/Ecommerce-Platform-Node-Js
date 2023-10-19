@@ -1,0 +1,32 @@
+<style>
+  #downPopout {
+    top: -65px !important;
+    right: 0;
+  }
+</style>
+
+
+
+
+<div class="down-nav">
+  <a href="/"><i class="fa fa-home"></i> Home</a>
+  <a href="/cartegories"><i class="fa fa-shopping-bag"></i> Category</a>
+  <a href="/All/products"><i class="fas fa-cubes"></i> Product</a>
+  <div class="cart_message">
+
+    <a href="/cart"><i class="fa fa-shopping-cart"></i> Cart</a>
+
+    <p class="total_cart">
+      <%= totalcount %>
+    </p>
+  </div>
+
+  <a href="#"> <i class="fas fa-user"></i> Profile</a>
+
+
+
+  <% if (isAdmin) { %>
+    <a href="/admin/dashboard"><i class="fas fa-user-cog"></i> Admin</a>
+    <% } %>
+
+</div>

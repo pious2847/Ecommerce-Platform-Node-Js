@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Moon || Admin</title>
+  <link rel="shortcut icon" href="IMG/logo.png" type="image/x-icon">
+
+
+  <%- include('./layout/header'); -%>
+
+</head>
+
+<body>
+  <%- include('./layout/top-nav', { isAdmin: isAdmin }) -%>
+
+
+
+
+
+    <section class="category-field">
+
+      <%- include('./layout/left_nav') %>
+
+        <div class="main-content">
+          <div class="edit_product">
+            <table>
+              <thead>
+                <tr>
+                  <th>Id</th>
+                  <th class="image">Image</th>
+                  <th>Product</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% products.forEach((product, index)=> { %>
+                  <tr>
+                    <input type="hidden" value="<%= product._id  %>">
+                    <td>
+                      <%= index %>
+                    </td>
+                    <td><img src="/uploads/<%= product.Image %>" alt="" class="image"></td>
+                    <td>
+                      <%= product.Title %>
+                    </td>
+                    <td>
+                      <a href="/updateProduct/<%= product._id %>" class="update"><i class="fa fa-edit"></i></a>
+                      <a href="#" data-product-id="<%= product._id %>"
+                        class="show_delete_modal "><i class="fa fa-trash"></i></a>
+
+                    </td>
+
+                  </tr>
+
+                  <% }); %>
+              </tbody>
+            </table>
+
+
+            
+            <div class="delete_modal hide_modal">
+              <div class="modal_content">
+                <div>
+                  <p>Are you sure you want to delete?</p>
+                </div>
+                <div class="close_delete">
+                  <a href="#" class="yes">Yes</a>
+                  <a href="#" class="delete_btn" id="cancel">No</a>
+                </div>
+              </div>
+            </div>
+
+            <br>
+            <br>
+         
+          </div>
+          <div class="pagination">
+            <% if (currentPage > 1) { %>
+            <a href="/admin/edit-product?page=<%= currentPage - 1 %>" class="previous">Previous</a>
+            <% } %>
+            <p><%= currentPage%></p>
+            <% if (currentPage < totalPages) { %>
+            <a href="/admin/edit-product?page=<%= currentPage + 1 %>"class="previous" >Next</a>
+            <% } %>
+          </div>
+        </div>
+
+
+    </section>
+
+
+    <%- include('./layout/down-nav'); -%>
+
+      <div class="footer">
+
+      </div>
+
+
+
+      <script>
+        const delete_modal = document.querySelector(".delete_modal");
+        const show_delete_modal = document.querySelectorAll('.show_delete_modal');
+        const delete_btn = document.querySelector(".delete_btn");
+      
+        let selectedProductId = null; // Variable to store the selected product ID
+      
+        show_delete_modal.forEach(sdm => {
+          if (delete_modal) {
+            sdm.addEventListener('click', (event) => {
+              event.preventDefault();
+              selectedProductId = sdm.getAttribute('data-product-id');
+              console.log(selectedProductId);
+              delete_modal.classList.remove('hide_modal');
+            });
+          }
+      
+          delete_btn.addEventListener("click", () => {
+            delete_modal.classList.add("hide_modal");
+            selectedProductId = null; // Reset the selected product ID
+          });
+      
+          const yesButton = delete_modal.querySelector('.yes');
+          if (yesButton) {
+            yesButton.addEventListener('click', () => {
+              if (selectedProductId) {
+                deleteProduct(selectedProductId); // Call the function to delete the product
+              }
+              delete_modal.classList.add('hide_modal');
+            });
+          }
+        });
+      
+       // Function to delete the product
+  function deleteProduct(productId) {
+    // Make an AJAX request to the server to delete the product
+    fetch(`/deleteProduct/${productId}`, {
+      method: 'GET',
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        // Product deleted successfully
+        // You can perform any necessary UI updates here (e.g., remove the deleted product from the table)
+        console.log("Product deleted successfully");
+        window.location.href = "/admin/dashboard"; // Redirect to the admin dashboard
+      } else {
+        // Failed to delete the product
+        // Handle the error or display an error message to the user
+        console.error("Failed to delete the product");
+      }
+    })
+    .catch(error => {
+      // Handle any network or server errors
+      console.error(error);
+    });
+  }
+      </script>
+
+</body>
+
+</html>

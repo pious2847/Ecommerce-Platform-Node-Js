@@ -1,0 +1,62 @@
+<!-- payment-page.ejs -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Payment Page</title>
+  <!-- Include Stripe.js library -->
+  <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body>
+  <h1>Payment Page</h1>
+  
+  <form id="payment-form" action="/process-payment" method="post">
+    <!-- Display the payment amount -->
+    <p>Amount: $<%= (paymentIntent.amount / 100).toFixed(2) %></p>
+    
+    <!-- Include the Stripe elements for card information -->
+    <div id="card-element"></div>
+    
+    <button type="submit">Pay Now</button>
+  </form>
+  
+  <script>
+    // Create a Stripe client
+    var stripe = Stripe('pk_test_51Mx8pPFqzuKlQuBhTjoU8b1bhtgBqUAlRZ4TWNqZ4A0Y8Lgqtaj91PtU9Lv1tsuKAM4CBq5mg8jJboF86Nwd17CA00qTcG04is');
+    
+    // Create an instance of Elements
+    var elements = stripe.elements();
+    
+    // Create a card Element and mount it to the card element
+    var card = elements.create('card');
+    card.mount('#card-element');
+    
+    // Handle the form submission
+    var form = document.getElementById('payment-form');
+    form.addEventListener('submit', function(event) {
+      event.preventDefault();
+      
+      stripe.createPaymentMethod({
+        type: 'card',
+        card: card
+      }).then(function(result) {
+        if (result.error) {
+          // Display error message to the user
+          console.error(result.error.message);
+        } else {
+          // Send the payment method ID to your server for processing
+          var paymentMethodId = result.paymentMethod.id;
+          fetch('/process-payment', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ paymentMethodId: paymentMethodId })
+          }).then(function(response) {
+            // Handle the server response (e.g., success or failure)
+          });
+        }
+      });
+    });
+  </script>
+</body>
+</html>

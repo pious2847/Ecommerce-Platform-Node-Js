@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moon || Admin</title>
+    <link rel="shortcut icon" href="IMG/logo.png" type="image/x-icon">
+    <%- include('./layout/header'); -%>
+
+</head>
+
+<body>
+  <%- include('./layout/top-nav', { isAdmin: isAdmin }) -%>
+
+
+
+   
+
+    <section class="category-field">
+        
+       <%- include('./layout/left_nav') %>
+
+        <div class="main-content">
+            <div class="edit_product">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Id</th>
+                      <th class="image">Image</th>
+                      <th>Username</th>
+			                <th>Product</th>
+			                <th>Quantity</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% products.forEach((product, index) => { %>
+                      <tr>
+                        <td><%= index %></td>
+                        <td><img src="/uploads/<%= product.Image %>" alt="" class="image"></td>
+                        <td><%= product.Title %></td>
+                        <td>
+                          <a href="/updateProduct/<%= product._id %>" class="update"><i class="fa fa-edit" ></i></a>
+                          <a href="#" class="show_modal"><i class="fa fa-trash"></i></a>
+                        </td>
+                        <div class="modal hide_modal">
+                          <div class="modal_content">
+                            <div>
+                              <p>Are you sure you want to delete?</p>
+                            </div>
+                              <div class="close_delete">
+                                  <a href="/deleteProduct/<%= product._id %>" class="yes">Yes</a>
+                                  <a href="#" class="close_btn " id="cancle">No</a>
+                              </div>
+                          </div>
+                      </div>
+                      </tr>
+                    
+                    <% }); %>
+                  </tbody>
+                </table>
+              </div>             
+           
+        </div>
+    </section>
+
+
+    <%- include('./layout/down-nav'); -%>
+
+    <div class="footer">
+
+    </div>
+
+    <script src="modal.js"></script>
+
+
+</body>
+
+</html>
