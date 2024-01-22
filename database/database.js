@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 
   const connectDB = mongoose.connection;
 
-  mongoose.connect("mongodb://127.0.0.1:27017/supermallclone", {
+  mongoose.connect("mongodb+srv://abdulhafis2847:pious2847@cluster0.ougor3s.mongodb.net/", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
